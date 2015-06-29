@@ -1,0 +1,56 @@
+body{margin:0px;padding:0px;}
+.guide{
+    position: absolute;
+    top:100px;
+    left:400px;
+    width:200px;
+    height:290px;
+    background-color:#FF0000;
+    -webkit-animation-timing-function: linear;
+   -webkit-transform-origin: center center;
+   -webkit-animation-iteration-count: infinite;
+   -webkit-animation-duration: 20s;
+   -webkit-animation-name: guide;   
+}
+.stepper{
+    position: absolute;
+    top:100px;
+    left:100px;
+    width:200px;
+    height:290px;
+    background-color:#FFFF00;
+}
+.prev{
+    position: absolute;
+    top:350px;
+    left:0px;
+}
+.next{
+    position: absolute;
+    top:450px;
+    left:100px;
+}
+.mouseposition{
+    position: absolute;
+    top:480px;
+    left:100px;
+}
+
+
+@-webkit-keyframes guide {
+    0% {background:url(00.png);}
+    9.09090909091% {background:url(01.png);}
+    18.1818181818% {background:url(02.png);}
+    27.2727272727% {background:url(03.png);}
+    36.3636363636% {background:url(04.png);}
+    45.4545454545% {background:url(05.png);}
+    54.5454545455% {background:url(06.png);}
+    63.6363636364% {background:url(07.png);}
+    72.7272727273% {background:url(08.png);}
+    81.8181818182% {background:url(09.png);}
+    90.9090909091% {background:url(10.png);}
+    100% {background:url(00.png);}
+}
+
+
+
