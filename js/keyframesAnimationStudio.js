@@ -3,17 +3,17 @@ $(init);
 
 function init() {
 
-function pad(pad, str, padLeft) {
-  if (typeof str === 'undefined') 
-    return pad;
-  if (padLeft) {
-    return (pad + str).slice(-pad.length);
-  } else {
-    return (str + pad).substring(0, pad.length);
-  }
-}
+    function pad(pad, str, padLeft) {
+        if (typeof str === 'undefined') return pad;
+        if (padLeft) {
+            return (pad + str).slice(-pad.length);
+        } else {
+            return (str + pad).substring(0, pad.length);
+        }
+    }
 
-
+    var nSteps = 36;
+    var currentStep = 16;
     var status = [];
     
     $('.piece').each(function () {
@@ -24,23 +24,45 @@ function pad(pad, str, padLeft) {
     $('.piece').draggable();
     $('.messages').draggable();
     
-    var welcomeMessage = "";
-    welcomeMessage += "==================================\n";
-    welcomeMessage += "=   Keyframes Animation Studio   =\n";
-    welcomeMessage += "==================================\n";
-    welcomeMessage += "=                                =\n";
-    welcomeMessage += "= This is an ui demo             =\n";
-    welcomeMessage += "= Software in development        =\n";
-    welcomeMessage += "=                                =\n";
-    welcomeMessage += "==================================\n";
-    welcomeMessage += "=                                =\n";
-    welcomeMessage += "= Drag and drop items with mouse =\n";
-    welcomeMessage += "= Use Mousewheel for rotation    =\n";
-    welcomeMessage += "=                                =\n";
-    welcomeMessage += "=== by ";
+    
     
     //$('#message1').text(welcomeMessage);
-    $('#message1').empty().append(welcomeMessage + "<a href=\"http://www.develost.com\">develost.com</a> ==============");
+    $('#message1').empty().append(getWelcomeMessage());
+    checkConnect();
+    
+    $('body').bind( "click", function( event) {
+        $('#message1').empty().append(getWelcomeMessage());
+
+    });    
+    
+    $('.commands').bind( "click", function( event) {
+        var commandId = $(this).attr('id');
+        $('#message1').empty().append(commandId);
+        return false;
+    });      
+    
+    
+    
+    function getWelcomeMessage(){
+        var welcomeMessage = "";
+        welcomeMessage += "==================================\n";
+        welcomeMessage += "=   Keyframes Animation Studio   =\n";
+        welcomeMessage += "==================================\n";
+        welcomeMessage += "=                                =\n";
+        welcomeMessage += "= nSteps      :" + pad("   ",nSteps,true) + "       <a class=\"commands\" id=\"lessSteps\">(-)</a> <a class=\"commands\" id=\"moreSteps\">(+)</a> =\n";
+        welcomeMessage += "= currentStep :" + pad("   ",currentStep,true) + "       <a class=\"commands\" id=\"prevStep\">(-)</a> <a class=\"commands\" id=\"nextStep\">(+)</a> =\n";
+        welcomeMessage += "=                                =\n";
+        welcomeMessage += "=         <a class=\"commands\" id=\"export\">export</a>  <a class=\"commands\" id=\"import\">import</a>         =\n";
+        welcomeMessage += "=                                =\n";
+        welcomeMessage += "==================================\n";
+        welcomeMessage += "=                                =\n";
+        welcomeMessage += "= Tip1: move items with mouse    =\n";
+        welcomeMessage += "= Tip2: use wheel for rotation   =\n";
+        welcomeMessage += "= Version 0.0.1 (in development) =\n";
+        welcomeMessage += "=                                =\n";
+        welcomeMessage += "=== by <a href=\"http://www.develost.com\">develost.com</a> ==============";
+        return welcomeMessage;
+    }
     
     function updateMessageElement(element){
         var pieceId = $(element).attr('id');
@@ -51,9 +73,9 @@ function pad(pad, str, padLeft) {
         message += "==================================\n";
         message += "=                                =\n";
         message += "= PieceId  : " + pad("             ",pieceId) + "       =\n";
-        message += "= Top      : " + pad("     ",Math.round(offset.top)) + " px            =\n";
-        message += "= Left     : " + pad("     ",Math.round(offset.left)) + " px            =\n";
-        message += "= Rotation : " + pad("     ",status[pieceId]) + " deg           =\n";
+        message += "= Top      : " + pad("     ",Math.round(offset.top),true) + " px            =\n";
+        message += "= Left     : " + pad("     ",Math.round(offset.left),true) + " px            =\n";
+        message += "= Rotation : " + pad("     ",status[pieceId],true) + " deg           =\n";
         message += "=                                =\n";
         message += "==================================\n";
         message += "=   Current Connections          =\n";
@@ -63,8 +85,8 @@ function pad(pad, str, padLeft) {
             var connId = $(this).attr('id');    
             var offset  = $(this).offset();
             message += "= ConnId   : " + pad("             ",connId) + "       =\n";
-            message += "= Top      : " + pad("     ",Math.round(offset.top)) + " px            =\n";
-            message += "= Left     : " + pad("     ",Math.round(offset.left)) + " px            =\n";
+            message += "= Top      : " + pad("     ",Math.round(offset.top),true) + " px            =\n";
+            message += "= Left     : " + pad("     ",Math.round(offset.left),true) + " px            =\n";
             message += "=                                =\n";
         });
         message += "=== by ";
@@ -121,6 +143,7 @@ function pad(pad, str, padLeft) {
         checkConnect();
         //This is for debug only
         //updateConnectionPoints();
+        event.stopPropagation();
     });
     
     $('.piece').bind( "dragstop", function( event) {
@@ -151,6 +174,7 @@ function pad(pad, str, padLeft) {
         checkConnect();
         //This is for debug only
         //updateConnectionPoints();
+        event.stopPropagation();
     });    
     
     $('.piece').bind('mousewheel DOMMouseScroll', function(event){
@@ -176,6 +200,7 @@ function pad(pad, str, padLeft) {
         
         updateMessageElement(this);
         checkConnect();
+        event.stopPropagation();
         //This is for debug only
         //updateConnectionPoints();
         
