@@ -17,15 +17,24 @@ function init() {
     // Global variables
     // ========================================================================
     var nSteps = 3;
-    var currentStep = 1;
-    var status = [];
+    var currentStep = 0;
+    var statuses = [];
     
     // ========================================================================
     // Gui initialization
     // ========================================================================
     $('.piece').each(function () {
         var pieceId = $(this).attr('id');
-        status[pieceId] = 0;
+        var pieceStatuses = [];
+        for (var i=0;i<nSteps;i++){
+            var currentStatus = [];
+            currentStatus['top'] = 0;
+            currentStatus['left'] = 0;
+            currentStatus['rotation'] = 0;
+            pieceStatuses[i] = currentStatus;
+        }
+        //statuses[pieceId] = 0;
+        statuses[pieceId] = pieceStatuses;
     });
     $('.piece').draggable();
     $('.messages').draggable();
@@ -61,14 +70,18 @@ function init() {
         var pieceId = $(element).attr('id');
         var offset  = $(element).offset();
         var message = "";
+
+        statuses[pieceId][currentStep]['top'] = offset.top
+        statuses[pieceId][currentStep]['left'] = offset.left
         message += "==================================\n";
+
         message += "=   Current Piece                =\n";
         message += "==================================\n";
         message += "=                                =\n";
         message += "= PieceId  : " + pad("             ",pieceId) + "       =\n";
         message += "= Top      : " + pad("     ",Math.round(offset.top),true) + " px            =\n";
         message += "= Left     : " + pad("     ",Math.round(offset.left),true) + " px            =\n";
-        message += "= Rotation : " + pad("     ",status[pieceId],true) + " deg           =\n";
+        message += "= Rotation : " + pad("     ",statuses[pieceId][currentStep]['rotation'],true) + " deg           =\n";
         message += "=                                =\n";
         message += "==================================\n";
         message += "=   Current Connections          =\n";
@@ -132,6 +145,7 @@ function init() {
     }
 
     function connectNear(element){
+        var done = false // hack for multiple connections on same position
         $(element).children('.conn').each(function () {
             var currentTop = $(this).offset().top;
             var currentLeft = $(this).offset().left;
@@ -146,7 +160,11 @@ function init() {
                     var parentOffset = $(currentConn).parent().offset();
                     var deltaTop = currentTop-testTop;
                     var deltaLeft = currentLeft-testLeft;
-                    $(currentConn).parent().offset({top: parentOffset.top-deltaTop , left:parentOffset.left-deltaLeft});
+                    if (!done) {
+                        done = true;  // hack for multiple connections on same position
+                        $(currentConn).parent().offset({top: parentOffset.top-deltaTop , left:parentOffset.left-deltaLeft});
+                    }
+                    done = true; // hack for multiple connections on same position
                 }
             });            
         });
@@ -154,21 +172,22 @@ function init() {
     
     function rotate(element,event){
         var pieceId = $(element).attr('id');
-        var currentStatus = status[pieceId];
-        var nextStatus = 0;
-        var statusInverted = 0;
+        //var currentRotation = statuses[pieceId];
+        var currentRotation = statuses[pieceId][currentStep]['rotation'];
+        var nextRotation = 0;
+        var statusesInverted = 0;
         if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-            nextStatus = currentStatus + 5;
-            if (nextStatus >= 360) {nextStatus = 0;}
+            nextRotation = currentRotation + 5;
+            if (nextRotation >= 360) {nextRotation = 0;}
         } else {
-            nextStatus = currentStatus - 5;
-            if (nextStatus < 0) {nextStatus = 355;}
+            nextRotation = currentRotation - 5;
+            if (nextRotation < 0) {nextRotation = 355;}
         }
-        var currentStatusInverted = 360-currentStatus;
-        var nextStatusInverted = 360-nextStatus;
-        $(element).removeClass("rotate"+currentStatus).addClass("rotate"+nextStatus );
-        $(element).children().removeClass("rotate"+currentStatusInverted).addClass("rotate"+nextStatusInverted );
-        status[pieceId] = nextStatus;    
+        var currentRotationInverted = 360-currentRotation;
+        var nextRotationInverted = 360-nextRotation;
+        $(element).removeClass("rotate"+currentRotation).addClass("rotate"+nextRotation );
+        $(element).children().removeClass("rotate"+currentRotationInverted).addClass("rotate"+nextRotationInverted );
+        statuses[pieceId][currentStep]['rotation'] = nextRotation;    
     }
     
     // ========================================================================
@@ -179,7 +198,7 @@ function init() {
     });    
     
     $( document ).delegate( "a.lessSteps", "click", function() {
-        if ( nSteps == 1 ) {return;};
+        if ( nSteps == 3 ) {return;};
         if (confirm("This will delete permanently step number " + nSteps + ". \nContinue?")){
             nSteps--;
         }
@@ -195,14 +214,14 @@ function init() {
     
     $( document ).delegate( "a.prevStep", "click", function() {
         currentStep--;
-        if (currentStep < 1 ){currentStep = nSteps;}
+        if (currentStep < 0 ){currentStep = nSteps-1;}
         $('#message1').empty().append(getWelcomeMessage());
         return false;
     });    
 
     $( document ).delegate( "a.nextStep", "click", function() {
         currentStep++;
-        if (currentStep > nSteps ){currentStep = 1;}
+        if (currentStep >= nSteps ){currentStep = 0;}
         $('#message1').empty().append(getWelcomeMessage());
         return false;
     });
@@ -210,7 +229,7 @@ function init() {
     $('.piece').bind( "dragstart drag click", function( event) {
         updateMessageElement(this);
         checkConnect();
-        //updateConnectionPoints();
+        updateConnectionPoints();
         event.stopPropagation();
     });
     
@@ -218,7 +237,7 @@ function init() {
         updateMessageElement(this);
         connectNear(this);
         checkConnect();
-        //updateConnectionPoints();
+        updateConnectionPoints();
         event.stopPropagation();
     });    
     
@@ -227,7 +246,7 @@ function init() {
         updateMessageElement(this);
         checkConnect();
         event.stopPropagation();
-        //updateConnectionPoints();
+        updateConnectionPoints();
     });
     
 } 
