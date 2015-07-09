@@ -7,7 +7,7 @@ var keyframesAnimationStudio = (function() {
     var dragInitialTop = 0;
     var dragInitialLeft = 0;
     var clickedPieceId = "";
-    var pieceCounter = 0;
+    var pieceCounter = 10;
     
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Windows content
@@ -15,30 +15,29 @@ var keyframesAnimationStudio = (function() {
     var renderMainWindow = function(){
         var content = "";
         if (mainWindowStatus == 0) {
-            content += "==============================<a class=\"commands switchMainWindow\">(+)</a>==\n";
+            content += "==<a class=\"commands switchMainWindow\">(+)</a>==============================\n";
+            content += "=                                 =\n";
             content += "= Keyframes Animation Studio      =\n";
+            content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
             content += "= Tip1: move items with mouse     =\n";
             content += "= Tip2: use wheel for rotation    =\n";
             content += "= Tip3: drag and drop everything  =\n";
-            content += "= Ver : 0.2.1                     =\n";
+            content += "= Vers: 0.2.1                     =\n";
             content += "=                                 =\n";
             content += "=== by <a target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> ===============";
         }else{
-            content += "==============================<a class=\"commands switchMainWindow\">(-)</a>==\n";
+            content += "==<a class=\"commands switchMainWindow\">(-)</a>==============================\n";
+            content += "=                                 =\n";
             content += "= Keyframes Animation Studio      =\n";
+            content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
             content += "= nSteps      :" + pad("   ",nSteps,true) + "        <a class=\"commands lessSteps\">(-)</a> <a class=\"commands moreSteps\">(+)</a> =\n";
             content += "= currentStep :" + pad("   ",currentStep+1,true) + "        <a class=\"commands prevStep\">(-)</a> <a class=\"commands nextStep\">(+)</a> =\n";
             content += "=                                 =\n";
-            content += "= <a class=\"commands\" >copyprev</a> <a class=\"commands\" >deletecurr</a> <a class=\"commands\" >copynext</a>    =\n";
-            content += "= <a class=\"commands\" >save</a> <a class=\"commands\" >load</a>   =\n";
-            content += "=                                 =\n";
-            content += "===================================\n";
-            content += "=                                 =\n";
-            content += "= <a class=\"commands\">like</a> <a class=\"commands\">tweet</a> <a class=\"commands\">about me</a>            =\n";
+            content += "= <a class=\"commands\" >save</a> <a class=\"commands\" >load</a> <a class=\"commands\">like</a> <a class=\"commands\">tweet</a> <a class=\"commands\">about</a>      =\n";
             content += "=                                 =\n";
             content += "=== by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> ===============";
         }
@@ -50,13 +49,17 @@ var keyframesAnimationStudio = (function() {
         if ((element === null) && (clickedPieceId === "")){
             if (piceWindowStatus == 0) {
                 content += "\n";
-                content += "==============================<a class=\"commands switchPieceWindow\">(+)</a>==\n";
+                content += "==<a class=\"commands switchPieceWindow\">(+)</a>==============================\n";
+                content += "=                                 =\n";
                 content += "= No pieces selected              =\n";
+                content += "=                                 =\n";
                 content += "===================================\n";
             }else{
                 content += "\n";
-                content += "==============================<a class=\"commands switchPieceWindow\">(-)</a>==\n";
+                content += "==<a class=\"commands switchPieceWindow\">(-)</a>==============================\n";
+                content += "=                                 =\n";
                 content += "= No pieces selected              =\n";
+                content += "=                                 =\n";
                 content += "===================================\n";
                 content += "=                                 =\n";
                 content += "= Top      :           px         =\n";
@@ -65,27 +68,34 @@ var keyframesAnimationStudio = (function() {
                 content += "= Height   :           px         =\n";
                 content += "= Rotation :           deg        =\n";
                 content += "=                                 =\n";
-                content += "= <a class=\"commands createNew\">createNew</a>                       =\n";
+                content += "= <a class=\"commands createPiece\">createNew</a>                       =\n";
                 content += "=                                 =\n";
                 content += "===================================\n";
             }
         } else{
             var pieceId = null;
+            var mouseStatus = "";
             if (element === null){
                 pieceId = clickedPieceId;
+                mouseStatus = "(selected)";
             }else{
                 pieceId = $(element).attr('id');
+                mouseStatus = "   (hover)";
             }
             
             if (piceWindowStatus == 0) {        
                 content += "\n";
-                content += "==============================<a class=\"commands switchPieceWindow\">(+)</a>==\n";
-                content += "= Piece "+pad("             ",pieceId) + "             =\n";
+                content += "==<a class=\"commands switchPieceWindow\">(+)</a>==============================\n";
+                content += "=                                 =\n";
+                content += "= Piece "+pad("             ",pieceId) + "  " + mouseStatus + " =\n";
+                content += "=                                 =\n";
                 content += "===================================\n";
             }else{
                 content += "\n";
-                content += "==============================<a class=\"commands switchPieceWindow\">(-)</a>==\n";
-                content += "= Piece "+pad("             ",pieceId) + "             =\n";
+                content += "==<a class=\"commands switchPieceWindow\">(-)</a>==============================\n";
+                content += "=                                 =\n";
+                content += "= Piece "+pad("             ",pieceId) + "  " + mouseStatus + " =\n";
+                content += "=                                 =\n";
                 content += "===================================\n";
                 content += "=                                 =\n";
                 content += "= Top      :  " + pad("        ",statuses[pieceId][currentStep]['top'].toFixed(2),true) + " px         =\n";
@@ -126,11 +136,7 @@ var keyframesAnimationStudio = (function() {
        }
     }
     
-
-    
-    
-    
-    var initializeStatuses = function(){
+    var initializeDemoStatuses = function(){
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
             var pieceStatuses = [];
@@ -281,6 +287,8 @@ var keyframesAnimationStudio = (function() {
             removeAllRotation(this);
             $(this).offset({top:statuses[pieceId][currentStep]['top'],left:statuses[pieceId][currentStep]['left']});
             $(this).addClass("rotate"+statuses[pieceId][currentStep]['rotation'] );
+            $(this).width(statuses[pieceId][currentStep]['width']);
+            $(this).height(statuses[pieceId][currentStep]['height']);
         });
     }
     
@@ -294,12 +302,57 @@ var keyframesAnimationStudio = (function() {
         }
     }
 
+    var createPiece = function(){
+        pieceCounter++;
+        var pieceId = "piece" + (pieceCounter);
+        $("#content").append("<div id=\"" + pieceId + "\" class=\"piece\"></div>");
+        var pieceStatuses = [];
+        for (var i=0;i<nSteps;i++){
+            var currentStatus = [];
+            currentStatus['top'] = 100;
+            currentStatus['left'] = 100;
+            currentStatus['width'] = 400;
+            currentStatus['height'] = 200;
+            currentStatus['rotation'] = 0;
+            pieceStatuses[i] = currentStatus;
+        }
+        statuses[pieceId] = pieceStatuses;
+        $('.piece').draggable();
+        rerenderAllPieces();
+    }
+    
+    var createStep = function(){
+        $('.piece').each(function () {
+            var pieceId = $(this).attr('id');
+            var pieceStatuses = statuses[pieceId];
+            var newStatuses = [];
+            newStatuses['top'] = pieceStatuses[currentStep]['top'];
+            newStatuses['left'] = pieceStatuses[currentStep]['left'];
+            newStatuses['width'] = pieceStatuses[currentStep]['width'];
+            newStatuses['height'] = pieceStatuses[currentStep]['height'];
+            newStatuses['rotation'] = pieceStatuses[currentStep]['rotation'];
+            pieceStatuses.splice(currentStep,0,newStatuses);
+            statuses[pieceId] = pieceStatuses;
+        });
+        nSteps++;
+    }
+    
+    var deleteStep = function(){
+        $('.piece').each(function () {
+            var pieceId = $(this).attr('id');
+            var pieceStatuses = statuses[pieceId];
+            pieceStatuses.splice(currentStep,0);
+            statuses[pieceId] = pieceStatuses;
+        });
+        nSteps--;
+    }
+    
     var start = function(){
         $('.windows').draggable();
         $('.piece').draggable();
         renderMainWindow();
         renderPieceWindow(null);
-        initializeStatuses();
+        initializeDemoStatuses();
         rerenderAllPieces();
         checkConnect();
         
@@ -312,45 +365,42 @@ var keyframesAnimationStudio = (function() {
             return false;
         });
         
-        $('.piece').bind( "mouseover", function(event) {
-            renderPieceWindow(this);
-            return false;
-        });
-        $('.piece').bind( "mouseout", function(event) {
-            renderPieceWindow(null);
-            return false;
-        });          
-        $('.piece').bind('mousewheel DOMMouseScroll', function(event){
-            rotatePiece(this,event);
-            checkConnect();
+        $( document ).delegate( "div.piece", "mouseover", function(event) {
             renderPieceWindow(this);
             return false;
         });
 
-        $('.piece').bind( "click", function(event) {
+        $( document ).delegate( "div.piece", "mouseout", function(event) {
+            renderPieceWindow(null);
+            return false;
+        });          
+        
+        $( document ).delegate( "div.piece", "mousewheel DOMMouseScroll", function(event) {
+            rotatePiece(this,event);
+            checkConnect();
+            renderPieceWindow(this);
+            return false;
+        });        
+        
+        $( document ).delegate( "div.piece", "click", function(event) {
             clickPiece(this);
             renderPieceWindow(this);
             return false;
         });        
         
-        $('.piece').bind( "drag", function(event) {
+        $( document ).delegate( "div.piece", "drag", function(event) {
             traslatePiece(this);
             checkConnect();
             renderPieceWindow(this);
         });
         
-        $('.piece').bind( "dragstop", function(event) {
+        $( document ).delegate( "div.piece", "dragstop", function(event) {
             connectNear(this);
             rerenderPiece(this);
             checkConnect();
             renderPieceWindow(this);
         });
 
-        $( document ).delegate( "a.moreSteps", "click", function() {
-            nSteps++;
-            renderMainWindow();
-            return false;
-        });
         
         $( document ).delegate( "a.deletePiece", "click", function() {
             deletePiece();
@@ -358,12 +408,28 @@ var keyframesAnimationStudio = (function() {
             return false;
         });
         
-        $( document ).delegate( "a.lessSteps", "click", function() {
-            if ( nSteps == 3 ) {return;};
-            if (confirm("This will delete permanently step number " + nSteps + ". \nContinue?")){
-                nSteps--;
-            }
+        $( document ).delegate( "a.createPiece", "click", function() {
+            createPiece();
+            return false;
+        });        
+        
+        $( document ).delegate( "a.moreSteps", "click", function() {
+            createStep();
             renderMainWindow();
+            return false;
+        });
+        
+        
+        $( document ).delegate( "a.lessSteps", "click", function() {
+            if ( nSteps == 3 ) {return false;};
+            if (confirm("This will delete permanently step number " + (currentStep+1) + ". \nContinue?")){
+                deleteStep();
+                currentStep--;
+                if (currentStep < 0 ){currentStep = nSteps-1;}
+                renderMainWindow();
+                rerenderAllPieces();
+                checkConnect();                
+            }
             return false;
         });        
 

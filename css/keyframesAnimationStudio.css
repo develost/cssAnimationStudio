@@ -9,14 +9,14 @@ a:hover {cursor:pointer;color:#FF0000;}
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;cursor:pointer;}
-.piece {  background: grey;  position:absolute;margin:0px;padding:0px;opacity:0.2;}
+.piece {  background: grey;  position:absolute;margin:0px;padding:0px;opacity:0.5;}
 .piece:hover {background: #00FF8B;}
 .selectedPiece {  background: #00008B;}
 .selectedPiece:hover {background: red;}
 .conn{width: 50px; height: 50px; background: white; border-radius: 25px; position:absolute;margin-top:-25px;margin-left:-25px;margin-right:-25px;}
-.conn-near{background:green;opacity:0.2;}
-.conn-exact{background:blue;opacity:0.5;}
-.conn-same{background:black;opacity:1;}
+.conn-near{background:green;/*opacity:0.2;*/}
+.conn-exact{background:blue;/*opacity:0.5;*/}
+.conn-same{background:black;/*opacity:1;*/}
 .conn-disconnected{background:white;opacity:0.2;}
 .rotate0{-ms-transform: rotate(0deg);-webkit-transform: rotate(0deg);transform: rotate(0deg);}
 .rotate5{-ms-transform: rotate(5deg);-webkit-transform: rotate(5deg);transform: rotate(5deg);}
