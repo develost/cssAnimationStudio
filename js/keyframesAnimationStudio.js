@@ -24,6 +24,7 @@ var keyframesAnimationStudio = (function() {
             content += "= Tip1: move items with mouse     =\n";
             content += "= Tip2: use wheel for rotation    =\n";
             content += "= Tip3: drag and drop everything  =\n";
+            content += "= Tip4: click on items to select  =\n";
             content += "= Vers: 0.2.1                     =\n";
             content += "=                                 =\n";
             content += "=== by <a target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> ===============";
@@ -122,10 +123,6 @@ var keyframesAnimationStudio = (function() {
         piceWindowStatus = (piceWindowStatus+1)%2;
         renderPieceWindow(null);
     }    
-    
-    
-    
-    
     
     var pad = function (pad, str, padLeft) {
         if (typeof str === 'undefined') return pad;
@@ -414,12 +411,14 @@ var keyframesAnimationStudio = (function() {
         });        
         
         $( document ).delegate( "a.moreSteps", "click", function() {
-            createStep();
-            currentStep++;
-            if (currentStep >= nSteps ){currentStep = 0;}
-            renderMainWindow();
-            rerenderAllPieces();
-            checkConnect();                
+            if (confirm("This will create a new step as a copy of step " + (currentStep+1) + ". \nContinue?")){
+                createStep();
+                currentStep++;
+                if (currentStep >= nSteps ){currentStep = 0;}
+                renderMainWindow();
+                rerenderAllPieces();
+                checkConnect();                
+            }
             return false;
         });
         
