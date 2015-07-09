@@ -341,7 +341,7 @@ var keyframesAnimationStudio = (function() {
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
             var pieceStatuses = statuses[pieceId];
-            pieceStatuses.splice(currentStep,0);
+            pieceStatuses.splice(currentStep,1);
             statuses[pieceId] = pieceStatuses;
         });
         nSteps--;
@@ -415,7 +415,11 @@ var keyframesAnimationStudio = (function() {
         
         $( document ).delegate( "a.moreSteps", "click", function() {
             createStep();
+            currentStep++;
+            if (currentStep >= nSteps ){currentStep = 0;}
             renderMainWindow();
+            rerenderAllPieces();
+            checkConnect();                
             return false;
         });
         
@@ -424,8 +428,8 @@ var keyframesAnimationStudio = (function() {
             if ( nSteps == 3 ) {return false;};
             if (confirm("This will delete permanently step number " + (currentStep+1) + ". \nContinue?")){
                 deleteStep();
-                currentStep--;
-                if (currentStep < 0 ){currentStep = nSteps-1;}
+                currentStep++;
+                if (currentStep >= nSteps ){currentStep = 0;}
                 renderMainWindow();
                 rerenderAllPieces();
                 checkConnect();                
