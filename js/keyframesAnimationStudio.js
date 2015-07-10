@@ -27,6 +27,7 @@ var keyframesAnimationStudio = (function() {
             content += "= Tip2: use wheel for rotation    =\n";
             content += "= Tip3: drag and drop everything  =\n";
             content += "= Tip4: click on items to select  =\n";
+            content += "= Load / save unimplemented yet   =\n";
             content += "=                                 =\n";
         }else if (mainWindowStatus == 0){
             content += "==<a class=\"commands switchMainWindow\">(+)</a>==============================\n";
@@ -43,8 +44,11 @@ var keyframesAnimationStudio = (function() {
             content += "= nSteps      :" + pad("   ",nSteps,true) + "        <a class=\"commands lessSteps\">(-)</a> <a class=\"commands moreSteps\">(+)</a> =\n";
             content += "= currentStep :" + pad("   ",currentStep+1,true) + "        <a class=\"commands prevStep\">(-)</a> <a class=\"commands nextStep\">(+)</a> =\n";
             content += "=                                 =\n";
-            content += "= <a class=\"commands\" >save</a> <a class=\"commands\" >load</a> <a class=\"commands\">like</a> <a class=\"commands\">tweet</a> <a class=\"commands about\">about</a>      =\n";
+            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20I%20like%20your%20%23KeyframesAnimationStudio%21%20Please%20work%20on%20it%2E\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\" >load</a>            =\n";
             content += "=                                 =\n";
+            
+            
+            
             
         }
         content += "=== 0.2.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
@@ -141,8 +145,12 @@ var keyframesAnimationStudio = (function() {
             content += "= No connection on current piece  =\n";
             content += "=                                 =\n";
             content += "===================================\n";
+            content += "=                                 =\n";
+            content += "= Feature in development.         =\n";
+            content += "= Check back soon.                =\n";
+            content += "=                                 =\n";
+            content += "===================================\n";
         }
-        
         $('#connectionsWindow').empty().append(content);
     }
     
@@ -506,11 +514,23 @@ var keyframesAnimationStudio = (function() {
         });
     };
     
-    $( document ).delegate( "a.about", "click", function() {
+    $( document ).delegate( "a.help", "click", function() {
         mainWindowStatus = -1;
         renderMainWindow();
         return false;
-    });     
+    });
+    
+    $( document ).delegate( "a.save", "click", function() {
+        alert("Feature in development.\nCheck back soon.")
+        return false;
+    });       
+
+    $( document ).delegate( "a.load", "click", function() {
+        alert("Feature in development.\nCheck back soon.")
+        return false;
+    });       
+
+    
     
     $( document ).delegate( "input.currentPiece", "keypress", function(event) {
         if (clickedPieceId === ""){return false;}
@@ -527,6 +547,17 @@ var keyframesAnimationStudio = (function() {
         }
         return true;
     });     
+    
+    $( document ).delegate( "a.popup", "click", function(event) {
+        var width  = 575,
+            height = 400,
+            left   = ($(window).width()  - width)  / 2,
+            top    = ($(window).height() - height) / 2,
+            url    = this.href,
+            opts   = 'status=1' + ',width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
+        window.open(url, 'twitter', opts);
+        return false;
+      });    
     
     
     
