@@ -44,12 +44,8 @@ var keyframesAnimationStudio = (function() {
             content += "= nSteps      :" + pad("   ",nSteps,true) + "        <a class=\"commands lessSteps\">(-)</a> <a class=\"commands moreSteps\">(+)</a> =\n";
             content += "= currentStep :" + pad("   ",currentStep+1,true) + "        <a class=\"commands prevStep\">(-)</a> <a class=\"commands nextStep\">(+)</a> =\n";
             content += "=                                 =\n";
-            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20I%20like%20your%20%23KeyframesAnimationStudio%21%20Please%20work%20on%20it%2E\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\" >load</a>            =\n";
+            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+ encodeURI(window.location.href) +"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\" >load</a>            =\n";
             content += "=                                 =\n";
-            
-            
-            
-            
         }
         content += "=== 0.2.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
