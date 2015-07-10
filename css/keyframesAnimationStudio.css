@@ -17,6 +17,17 @@ a:hover {cursor:pointer;color:#FF0000;}
 .conn-near{background:green;/*opacity:0.2;*/}
 .conn-exact{background:blue;/*opacity:0.5;*/}
 .conn-same{background:black;/*opacity:1;*/}
+input[type="text"]{
+    font-family: "Lucida Console", Monaco, monospace;font-size:11px;
+    text-align: right; 
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+input[type="text"]:hover{
+    background-color: yellow;
+}
+
 .conn-disconnected{background:white;opacity:0.2;}
 .rotate0{-ms-transform: rotate(0deg);-webkit-transform: rotate(0deg);transform: rotate(0deg);}
 .rotate5{-ms-transform: rotate(5deg);-webkit-transform: rotate(5deg);transform: rotate(5deg);}
