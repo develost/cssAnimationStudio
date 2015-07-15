@@ -10,6 +10,8 @@ var keyframesAnimationStudio = (function() {
     var dragInitialLeft = 0;
     var clickedPieceId = "";
     var pieceCounter = 10;
+    var connCounter = 10;
+    
     
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Windows content
@@ -20,7 +22,7 @@ var keyframesAnimationStudio = (function() {
         if (mainWindowStatus<0){
             content += "==<a class=\"commands switchMainWindow\">(x)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio      =\n";
+            content += "= Keyframes Animation Studio css  =\n";
             content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
@@ -33,19 +35,19 @@ var keyframesAnimationStudio = (function() {
         }else if (mainWindowStatus == 0){
             content += "==<a class=\"commands switchMainWindow\">(+)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio      =\n";
+            content += "= Keyframes Animation Studio css  =\n";
             content += "=                                 =\n";
         }else{
             content += "==<a class=\"commands switchMainWindow\">(-)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio      =\n";
+            content += "= Keyframes Animation Studio css  =\n";
             content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
             content += "= nSteps      :" + pad("   ",nSteps,true) + "        <a class=\"commands lessSteps\">(-)</a> <a class=\"commands moreSteps\">(+)</a> =\n";
             content += "= currentStep :" + pad("   ",currentStep+1,true) + "        <a class=\"commands prevStep\">(-)</a> <a class=\"commands nextStep\">(+)</a> =\n";
             content += "=                                 =\n";
-            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\" >load</a>            =\n";
+            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a> <a class=\"commands reset\">reset</a> <a class=\"commands test\">test</a> =\n";
             content += "=                                 =\n";
         }
         content += "=== 0.2.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
@@ -197,22 +199,20 @@ var keyframesAnimationStudio = (function() {
                 content += "\n";
                 content += "==<a class=\"commands switchConnectionsWindow\">(-)</a>==============================\n";
                 content += "=                                 =\n";
-                content += "= Connections of "+pad("             ",pieceId)  + "    =\n";
+                content += "= Connections of "+pad("          ",pieceId)  + "       =\n";
                 content += "=                                 =\n";
                 content += "===================================\n";
                 content += "=                                 =\n";
-                content += "= Id       :    conn1 <a class=\"commands deleteConnection\">delete</a>      =\n";
-                content += "= Top      :   100.00 px          =\n";
-                content += "= Left     :   300.00 px          =\n";
-                content += "=                                 =\n";
-                content += "= Id       :    conn2 <a class=\"commands deleteConnection\">delete</a>     =\n";
-                content += "= Top      :    10.00 px          =\n";
-                content += "= Right    :  1300.00 px          =\n";
-                content += "=                                 =\n";
-                content += "= Id       :    conn3 <a class=\"commands deleteConnection\">delete</a>     =\n";
-                content += "= Bottom   :     1.00 px          =\n";
-                content += "= Left     :   300.00 px          =\n";
-                content += "=                                 =\n";
+                
+                $('.conn').each(function() {
+                    var connId = $(this).attr('id');
+                    if (connStatuses[connId]['parentId'] === pieceId) {
+                        content += "= Id       : "+ pad("         ",connId,true) +" <a class=\"commands deleteConnection\" id=\"del_"+connId+"\">delete</a>     =\n";
+                        content += "= <input class=\"currentConnTypePiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\""+connId+"_vPosType\" value=\"" + capitalizeFirstLetter(connStatuses[connId]['vPosType']) + "\" > :  <input class=\"currentConnValuePiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\""+connId+"_vPosValue\" value=\"" + connStatuses[connId]['vPosValue'].toFixed(2) + "\"> px         =\n";
+                        content += "= <input class=\"currentConnTypePiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\""+connId+"_oPosType\" value=\"" + capitalizeFirstLetter(connStatuses[connId]['oPosType']) + "\" > :  <input class=\"currentConnValuePiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\""+connId+"_oPosValue\" value=\"" + connStatuses[connId]['oPosValue'].toFixed(2) + "\"> px         =\n";
+                        content += "=                                 =\n";
+                    }
+                });
                 content += "= <a class=\"commands createConnection\">createNew</a>                       =\n";
                 content += "=                                 =\n";
                 content += "===================================\n";
@@ -248,6 +248,10 @@ var keyframesAnimationStudio = (function() {
         } else {
             return (str + pad).substring(0, pad.length);
        }
+    }
+     
+    var  capitalizeFirstLetter = function (string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
     
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -392,6 +396,17 @@ var keyframesAnimationStudio = (function() {
         if (clickedPieceId === ""){
             // nothing to do, should never happen
         }else{
+        
+            // delete every child connection
+            $('.conn').each(function(){
+                var connId = $(this).attr('id');
+                if (clickedPieceId === connStatuses[connId]['parentId']){
+                    delete connStatuses[connId];
+                    $(this).remove();
+                }
+            });
+            
+            // delete piece
             delete statuses[clickedPieceId];
             $('#'+clickedPieceId).remove();
             clickedPieceId = "";
@@ -415,6 +430,36 @@ var keyframesAnimationStudio = (function() {
         statuses[pieceId] = pieceStatuses;
         $('.piece').draggable();
         rerenderAllPieces();
+    }
+    
+    var createConnection = function(){
+        if (clickedPieceId === "") {return;}
+        connCounter++;
+        var connId = "conn" + (connCounter);
+        connStatuses[connId] = [];
+        $('.piece').each(function () {
+            var pieceId = $(this).attr('id');
+            if (pieceId === clickedPieceId){
+                var pieceId = $(this).attr("id");
+                var invertedRotation = 360 - statuses[pieceId][currentStep]['rotation'];
+                $(this).append("<div id=\"" + connId + "\" class=\"conn rotate"+invertedRotation+"\"></div>");
+                connStatuses[connId]['parentId'] = pieceId;
+                connStatuses[connId]['vPosType'] = 'top';
+                connStatuses[connId]['vPosValue'] = 50;
+                connStatuses[connId]['oPosType'] = 'left';
+                connStatuses[connId]['oPosValue'] = 50;
+            }
+        });
+        rerenderAllConnections();
+        checkConnect();
+        renderConnectionsWindow(null);
+    }
+    
+    var deleteConnection =  function(element){
+        var actionAndId = $(element).attr('id').split("_");
+        var connId = actionAndId[1];
+        delete connStatuses[connId];
+        $('#'+connId).remove();
     }
     
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -618,10 +663,25 @@ var keyframesAnimationStudio = (function() {
             return false;
         });
         
+        $( document ).delegate( "a.deleteConnection", "click", function() {
+            deleteConnection(this);
+            rerenderAllConnections();
+            checkConnect();
+            renderConnectionsWindow(null);
+            return false;
+        });        
+        
+        
         $( document ).delegate( "a.createPiece", "click", function() {
             createPiece();
             return false;
-        });        
+        });
+
+
+        $( document ).delegate( "a.createConnection", "click", function() {
+            createConnection();
+            return false;
+        });
         
         $( document ).delegate( "a.moreSteps", "click", function() {
             if (confirm("This will create a new step as a copy of step " + (currentStep+1) + ". \nContinue?")){
@@ -631,7 +691,7 @@ var keyframesAnimationStudio = (function() {
                 renderMainWindow();
                 rerenderAllPieces();
                 rerenderAllConnections();
-                checkConnect();                
+                checkConnect();
             }
             return false;
         });
@@ -686,7 +746,22 @@ var keyframesAnimationStudio = (function() {
         alert("Feature in development.\nCheck back soon.")
         return false;
     });       
+    
+    $( document ).delegate( "a.reset", "click", function() {
+        alert("Feature in development.\nCheck back soon.")
+        return false;
+    });       
 
+    $( document ).delegate( "a.test", "click", function() {
+        var allStatuses = [];
+        allStatuses['pieces'] = statuses;
+        allStatuses['connections'] = connStatuses;
+        var savedStatusJson = JSON.stringify(allStatuses);
+        
+        alert(savedStatusJson);
+        return false;
+    });     
+    
     
     
     $( document ).delegate( "input.currentPiece", "keypress", function(event) {
@@ -698,13 +773,70 @@ var keyframesAnimationStudio = (function() {
                 var attributeName = $(this).attr('name');
                 statuses[clickedPieceId][currentStep][attributeName] = currentValue;
                 rerenderAllPieces();
+                //rerenderAllConnections();
                 renderPieceWindow(null);
                 renderConnectionsWindow(null);
                 checkConnect();
             }
         }
         return true;
-    });     
+    });
+    
+    $( document ).delegate( "input.currentConnValuePiece", "keypress", function(event) {
+        if (clickedPieceId === ""){return false;}
+        if(event.which === 13){ // enter key
+            var currentValueString = $(this).val();
+            if (!isNaN(currentValueString)){
+                var currentValue = parseFloat(currentValueString);
+                var attributeName = $(this).attr('name');
+                var idAndValue = attributeName.split("_");
+                var connId = idAndValue[0];
+                var connValue = idAndValue[1];
+                connStatuses[connId][connValue] = currentValue;
+                //rerenderAllPieces();
+                rerenderAllConnections();
+                renderPieceWindow(null);
+                renderConnectionsWindow(null);
+                checkConnect();
+            }
+        }
+        return true;
+    });
+    
+    $( document ).delegate( "input.currentConnTypePiece", "keypress", function(event) {
+        return false;
+    });
+    
+    $( document ).delegate( "input.currentConnTypePiece", "click", function(event) {
+        if (clickedPieceId === ""){return false;}
+
+        var currentValue = $(this).val();
+        var attributeName = $(this).attr('name');
+        var idAndType = attributeName.split("_");
+        var connId = idAndType[0];
+        var connType = idAndType[1];
+        
+        var newValue = "";
+        if (currentValue === "Top"){
+            newValue = "bottom";
+        }else if (currentValue === "Bottom"){
+            newValue = "top";
+        }else if (currentValue === "Left"){
+            newValue = "right";
+        }else if (currentValue === "Right"){
+            newValue = "left";
+        }
+        
+        if (newValue === "") return false;
+        
+        connStatuses[connId][connType] = newValue;
+        //rerenderAllPieces();
+        rerenderAllConnections();
+        renderPieceWindow(null);
+        renderConnectionsWindow(null);
+        checkConnect();
+        return true;    
+    });    
     
     $( document ).delegate( "a.popup", "click", function(event) {
         var width  = 575,
@@ -715,9 +847,7 @@ var keyframesAnimationStudio = (function() {
             opts   = 'status=1' + ',width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
         window.open(url, 'twitter', opts);
         return false;
-      });    
-    
-    
+      });
     
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Public methods
