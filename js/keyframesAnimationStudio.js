@@ -4,8 +4,8 @@ var keyframesAnimationStudio = (function() {
     var mainWindowStatus = 0;
     var piceWindowStatus = 0;
     var connectionsWindowStatus = 0;
-    var statuses = [];
-    var connStatuses = [];
+    var statuses = {};
+    var connStatuses = {};
     var dragInitialTop = 0;
     var dragInitialLeft = 0;
     var clickedPieceId = "";
@@ -417,9 +417,9 @@ var keyframesAnimationStudio = (function() {
         pieceCounter++;
         var pieceId = "piece" + (pieceCounter);
         $("#content").append("<div id=\"" + pieceId + "\" class=\"piece\"></div>");
-        var pieceStatuses = [];
+        var pieceStatuses = {};
         for (var i=0;i<nSteps;i++){
-            var currentStatus = [];
+            var currentStatus = {};
             currentStatus['top'] = 100;
             currentStatus['left'] = 100;
             currentStatus['width'] = 400;
@@ -436,7 +436,7 @@ var keyframesAnimationStudio = (function() {
         if (clickedPieceId === "") {return;}
         connCounter++;
         var connId = "conn" + (connCounter);
-        connStatuses[connId] = [];
+        connStatuses[connId] = {};
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
             if (pieceId === clickedPieceId){
@@ -469,7 +469,7 @@ var keyframesAnimationStudio = (function() {
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
             var pieceStatuses = statuses[pieceId];
-            var newStatuses = [];
+            var newStatuses = {};
             newStatuses['top'] = pieceStatuses[currentStep]['top'];
             newStatuses['left'] = pieceStatuses[currentStep]['left'];
             newStatuses['width'] = pieceStatuses[currentStep]['width'];
@@ -497,9 +497,9 @@ var keyframesAnimationStudio = (function() {
     var initializeDemoStatuses = function(){
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
-            var pieceStatuses = [];
+            var pieceStatuses = {};
             for (var i=0;i<nSteps;i++){
-                var currentStatus = [];
+                var currentStatus = {};
                 currentStatus['top'] = 100;
                 currentStatus['left'] = 100;
                 currentStatus['width'] = 400;
@@ -509,77 +509,77 @@ var keyframesAnimationStudio = (function() {
             }
             statuses[pieceId] = pieceStatuses;
         });
-        connStatuses['conn0'] = [];
+        connStatuses['conn0'] = {};
         connStatuses['conn0']['parentId'] = 'piece0';
         connStatuses['conn0']['vPosType'] = 'top';
         connStatuses['conn0']['vPosValue'] = 50;
         connStatuses['conn0']['oPosType'] = 'left';
         connStatuses['conn0']['oPosValue'] = 200;
         
-        connStatuses['conn1'] = [];
+        connStatuses['conn1'] = {};
         connStatuses['conn1']['parentId'] = 'piece0';
         connStatuses['conn1']['vPosType'] = 'top';
         connStatuses['conn1']['vPosValue'] = 50;
         connStatuses['conn1']['oPosType'] = 'left';
         connStatuses['conn1']['oPosValue'] = 50;
 
-        connStatuses['conn2'] = [];
+        connStatuses['conn2'] = {};
         connStatuses['conn2']['parentId'] = 'piece0';
         connStatuses['conn2']['vPosType'] = 'top';
         connStatuses['conn2']['vPosValue'] = 50;
         connStatuses['conn2']['oPosType'] = 'right';
         connStatuses['conn2']['oPosValue'] = 50;
 
-        connStatuses['conn3'] = [];
+        connStatuses['conn3'] = {};
         connStatuses['conn3']['parentId'] = 'piece1';
         connStatuses['conn3']['vPosType'] = 'top';
         connStatuses['conn3']['vPosValue'] = 50;
         connStatuses['conn3']['oPosType'] = 'left';
         connStatuses['conn3']['oPosValue'] = 50;
 
-        connStatuses['conn4'] = [];
+        connStatuses['conn4'] = {};
         connStatuses['conn4']['parentId'] = 'piece1';
         connStatuses['conn4']['vPosType'] = 'top';
         connStatuses['conn4']['vPosValue'] = 50;
         connStatuses['conn4']['oPosType'] = 'right';
         connStatuses['conn4']['oPosValue'] = 50;
 
-        connStatuses['conn5'] = [];
+        connStatuses['conn5'] = {};
         connStatuses['conn5']['parentId'] = 'piece2';
         connStatuses['conn5']['vPosType'] = 'top';
         connStatuses['conn5']['vPosValue'] = 100;
         connStatuses['conn5']['oPosType'] = 'left';
         connStatuses['conn5']['oPosValue'] = 100;
 
-        connStatuses['conn6'] = [];
+        connStatuses['conn6'] = {};
         connStatuses['conn6']['parentId'] = 'piece2';
         connStatuses['conn6']['vPosType'] = 'top';
         connStatuses['conn6']['vPosValue'] = 100;
         connStatuses['conn6']['oPosType'] = 'right';
         connStatuses['conn6']['oPosValue'] = 100;
 
-        connStatuses['conn7'] = [];
+        connStatuses['conn7'] = {};
         connStatuses['conn7']['parentId'] = 'piece3';
         connStatuses['conn7']['vPosType'] = 'top';
         connStatuses['conn7']['vPosValue'] = 50;
         connStatuses['conn7']['oPosType'] = 'left';
         connStatuses['conn7']['oPosValue'] = 50;
 
-        connStatuses['conn8'] = [];
+        connStatuses['conn8'] = {};
         connStatuses['conn8']['parentId'] = 'piece3';
         connStatuses['conn8']['vPosType'] = 'top';
         connStatuses['conn8']['vPosValue'] = 50;
         connStatuses['conn8']['oPosType'] = 'right';
         connStatuses['conn8']['oPosValue'] = 50;
         
-        connStatuses['conn9'] = [];
+        connStatuses['conn9'] = {};
         connStatuses['conn9']['parentId'] = 'piece4';
         connStatuses['conn9']['vPosType'] = 'top';
         connStatuses['conn9']['vPosValue'] = 50;
         connStatuses['conn9']['oPosType'] = 'left';
         connStatuses['conn9']['oPosValue'] = 50;
 
-        connStatuses['conn10'] = [];
+        connStatuses['conn10'] = {};
         connStatuses['conn10']['parentId'] = 'piece4';
         connStatuses['conn10']['vPosType'] = 'top';
         connStatuses['conn10']['vPosValue'] = 50;
@@ -753,7 +753,7 @@ var keyframesAnimationStudio = (function() {
     });       
 
     $( document ).delegate( "a.test", "click", function() {
-        var allStatuses = [];
+        var allStatuses = {};
         allStatuses['pieces'] = statuses;
         allStatuses['connections'] = connStatuses;
         var savedStatusJson = JSON.stringify(allStatuses);
