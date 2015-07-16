@@ -783,7 +783,7 @@ var keyframesAnimationStudio = (function() {
         $("input[name=callValue]").val(savedStatusJson);
         $('#call').submit();
         
-        alert(savedStatusJson);
+        //alert(savedStatusJson);
         return false;
     });     
     
