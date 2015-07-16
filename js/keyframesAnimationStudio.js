@@ -1,5 +1,5 @@
 var keyframesAnimationStudio = (function() {
-    var nSteps = 3;
+    var nSteps = 4;
     var currentStep = 0;
     var mainWindowStatus = 0;
     var piceWindowStatus = 0;
@@ -50,7 +50,7 @@ var keyframesAnimationStudio = (function() {
             content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a> <a class=\"commands reset\">reset</a> <a class=\"commands test\">test</a> =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.2.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.3.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
@@ -112,7 +112,7 @@ var keyframesAnimationStudio = (function() {
                 content += "= Left     :  <input class=\"currentPiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\"left\" value=\"" + statuses[pieceId][currentStep]['left'].toFixed(2) + "\"> px         =\n";
                 content += "= Width    :  <input class=\"currentPiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\"width\" value=\"" + statuses[pieceId][currentStep]['width'].toFixed(2) + "\"> px         =\n";
                 content += "= Height   :  <input class=\"currentPiece\" size=\"8\" maxLenght=\"8\" type=\"text\" name=\"height\" value=\"" + statuses[pieceId][currentStep]['height'].toFixed(2) + "\"> px         =\n";
-                content += "= Rotation :  " + pad("        ",statuses[pieceId][currentStep]['rotation'].toFixed(2),true) + " deg        =\n";
+                content += "= Rotation :  " + pad("        ",statuses[pieceId][currentStep]['rotate'].toFixed(2),true) + " deg        =\n";
                 content += "=                                 =\n";
                 content += "= <a class=\"commands deletePiece\">delete</a>                          =\n";
                 content += "=                                 =\n";
@@ -137,7 +137,7 @@ var keyframesAnimationStudio = (function() {
             var newConn = $("<div></div>");
             newConn.attr('id',connId);
             newConn.addClass('conn');
-            var newRotationInverted = 360 - statuses[parentId][currentStep]['rotation'];
+            var newRotationInverted = 360 - statuses[parentId][currentStep]['rotate'];
             if (vPosType === 'top'){
                 newConn.css({bottom:'',top:vPosValue});
             }else{
@@ -268,7 +268,7 @@ var keyframesAnimationStudio = (function() {
             }else{
                 deltaRotation = -5;
             }
-            var currentRotation = statuses[pieceId][currentStep]['rotation'];
+            var currentRotation = statuses[pieceId][currentStep]['rotate'];
             var nextRotation = currentRotation + deltaRotation;
             if (nextRotation < 0){
                 nextRotation = 355;
@@ -276,7 +276,7 @@ var keyframesAnimationStudio = (function() {
             if (nextRotation >= 360){
                 nextRotation = 0;
             }
-            statuses[pieceId][currentStep]['rotation'] = nextRotation;
+            statuses[pieceId][currentStep]['rotate'] = nextRotation;
             rerenderPiece(element);
         }
     }
@@ -291,7 +291,7 @@ var keyframesAnimationStudio = (function() {
         var pieceId = $(element).attr('id');
         var newTop = statuses[pieceId][currentStep]['top'];
         var newLeft = statuses[pieceId][currentStep]['left'];
-        var newRotation = statuses[pieceId][currentStep]['rotation'];
+        var newRotation = statuses[pieceId][currentStep]['rotate'];
         var newRotationInverted = 360 - newRotation;
         removeAllRotation(element);
         $(element).offset({top:newTop,left:newLeft});
@@ -306,7 +306,7 @@ var keyframesAnimationStudio = (function() {
         var currentOffset = $(element).offset();
         statuses[pieceId][currentStep]['top'] = /*Math.round(*/currentOffset.top/*)*/;
         statuses[pieceId][currentStep]['left'] = /*Math.round(*/currentOffset.left/*)*/;
-        $(element).addClass("rotate"+statuses[pieceId][currentStep]['rotation']);
+        $(element).addClass("rotate"+statuses[pieceId][currentStep]['rotate']);
         rerenderPiece(element);
     }
     
@@ -386,7 +386,7 @@ var keyframesAnimationStudio = (function() {
             var pieceId = $(this).attr('id');
             removeAllRotation(this);
             $(this).offset({top:statuses[pieceId][currentStep]['top'],left:statuses[pieceId][currentStep]['left']});
-            $(this).addClass("rotate"+statuses[pieceId][currentStep]['rotation'] );
+            $(this).addClass("rotate"+statuses[pieceId][currentStep]['rotate'] );
             $(this).width(statuses[pieceId][currentStep]['width']);
             $(this).height(statuses[pieceId][currentStep]['height']);
         });
@@ -424,7 +424,7 @@ var keyframesAnimationStudio = (function() {
             currentStatus['left'] = 100;
             currentStatus['width'] = 400;
             currentStatus['height'] = 200;
-            currentStatus['rotation'] = 0;
+            currentStatus['rotate'] = 0;
             pieceStatuses[i] = currentStatus;
         }
         statuses[pieceId] = pieceStatuses;
@@ -441,7 +441,7 @@ var keyframesAnimationStudio = (function() {
             var pieceId = $(this).attr('id');
             if (pieceId === clickedPieceId){
                 var pieceId = $(this).attr("id");
-                var invertedRotation = 360 - statuses[pieceId][currentStep]['rotation'];
+                var invertedRotation = 360 - statuses[pieceId][currentStep]['rotate'];
                 $(this).append("<div id=\"" + connId + "\" class=\"conn rotate"+invertedRotation+"\"></div>");
                 connStatuses[connId]['parentId'] = pieceId;
                 connStatuses[connId]['vPosType'] = 'top';
@@ -474,9 +474,20 @@ var keyframesAnimationStudio = (function() {
             newStatuses['left'] = pieceStatuses[currentStep]['left'];
             newStatuses['width'] = pieceStatuses[currentStep]['width'];
             newStatuses['height'] = pieceStatuses[currentStep]['height'];
-            newStatuses['rotation'] = pieceStatuses[currentStep]['rotation'];
-            pieceStatuses.splice(currentStep,0,newStatuses);
-            statuses[pieceId] = pieceStatuses;
+            newStatuses['rotate'] = pieceStatuses[currentStep]['rotate'];
+            var newPieceStatuses = {}
+            
+            var j=0;
+            for (var i=0;i<nSteps;i++){
+                newPieceStatuses[j] = pieceStatuses[i];
+                j++;
+                if (j === currentStep){
+                    newPieceStatuses[j] = newStatuses;
+                    j++;
+                }
+            }
+            //pieceStatuses.splice(currentStep,0,newStatuses);
+            statuses[pieceId] = newPieceStatuses;
         });
         nSteps++;
     }
@@ -485,7 +496,17 @@ var keyframesAnimationStudio = (function() {
         $('.piece').each(function () {
             var pieceId = $(this).attr('id');
             var pieceStatuses = statuses[pieceId];
-            pieceStatuses.splice(currentStep,1);
+            var j=0;
+            for (var i=0;i<nSteps;i++){
+                if (i===currentStep){
+                    delete pieceStatuses[i];
+                }else{
+                    pieceStatuses[j] = pieceStatuses[i];
+                    j++;
+                }
+            }
+            delete pieceStatuses[nSteps-1];
+            //pieceStatuses.splice(currentStep,1);
             statuses[pieceId] = pieceStatuses;
         });
         nSteps--;
@@ -504,7 +525,7 @@ var keyframesAnimationStudio = (function() {
                 currentStatus['left'] = 100;
                 currentStatus['width'] = 400;
                 currentStatus['height'] = 200;
-                currentStatus['rotation'] = 0;
+                currentStatus['rotate'] = 0;
                 pieceStatuses[i] = currentStatus;
             }
             statuses[pieceId] = pieceStatuses;
@@ -757,6 +778,10 @@ var keyframesAnimationStudio = (function() {
         allStatuses['pieces'] = statuses;
         allStatuses['connections'] = connStatuses;
         var savedStatusJson = JSON.stringify(allStatuses);
+        
+        $("input[name=callType]").val("test");
+        $("input[name=callValue]").val(savedStatusJson);
+        $('#call').submit();
         
         alert(savedStatusJson);
         return false;
