@@ -1,5 +1,5 @@
 html{cursor:pointer;}
-body{overflow:hidden;font-family: "Lucida Console", Monaco, monospace;font-size:11px;width:100%;height:100%;cursor:pointer;width:100%;height:100%;}
+body{overflow:hidden;font-family: "Lucida Console", Monaco, monospace;font-size:11px;width:100%;height:100%;cursor:pointer;width:100%;height:100%;background: #FFFFFF url('data:image/jpg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAUABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9wfht8NvDt98PNBnm0HRppptOt3kkksYmZ2MSkkkrkknnJrd/4VZ4Y/6FvQf/AAXxf/E0fCv/AJJh4c/7Bdt/6KWt6gDB/wCFWeGP+hb0H/wXxf8AxNFb1FAGD8LP+SY+G/8AsF23/opa3qKKACiiigD/2Q==') repeat;}
 
 a{text-decoration:none;color:#0000FF;}
 a:hover {cursor:pointer;color:#FF0000;}
@@ -34,6 +34,7 @@ input.currentConnTypePiece[type="text"]{
 }
 
 .conn-disconnected{background:white;opacity:0.2;}
+/*
 .rotate0{-ms-transform: rotate(0deg);-webkit-transform: rotate(0deg);transform: rotate(0deg);}
 .rotate5{-ms-transform: rotate(5deg);-webkit-transform: rotate(5deg);transform: rotate(5deg);}
 .rotate10{-ms-transform: rotate(10deg);-webkit-transform: rotate(10deg);transform: rotate(10deg);}
@@ -106,3 +107,4 @@ input.currentConnTypePiece[type="text"]{
 .rotate345{-ms-transform: rotate(345deg);-webkit-transform: rotate(345deg);transform: rotate(345deg);}
 .rotate350{-ms-transform: rotate(350deg);-webkit-transform: rotate(350deg);transform: rotate(350deg);}
 .rotate355{-ms-transform: rotate(355deg);-webkit-transform: rotate(355deg);transform: rotate(355deg);}
+*/
