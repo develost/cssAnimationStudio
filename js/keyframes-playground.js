@@ -22,7 +22,7 @@ var keyframesAnimationStudio = (function() {
         if (mainWindowStatus<0){
             content += "==<a class=\"commands switchMainWindow\">(x)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio css  =\n";
+            content += "= Keyframes Playground            =\n";
             content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
@@ -35,12 +35,12 @@ var keyframesAnimationStudio = (function() {
         }else if (mainWindowStatus == 0){
             content += "==<a class=\"commands switchMainWindow\">(+)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio css  =\n";
+            content += "= Keyframes Playground            =\n";
             content += "=                                 =\n";
         }else{
             content += "==<a class=\"commands switchMainWindow\">(-)</a>==============================\n";
             content += "=                                 =\n";
-            content += "= Keyframes Animation Studio css  =\n";
+            content += "= Keyframes Playground            =\n";
             content += "=                                 =\n";
             content += "===================================\n";
             content += "=                                 =\n";
@@ -50,7 +50,7 @@ var keyframesAnimationStudio = (function() {
             content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a> <a class=\"commands reset\">reset</a> <a class=\"commands test\">test</a> =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.3.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.5.0 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
