@@ -47,10 +47,10 @@ var keyframesAnimationStudio = (function() {
             content += "= nSteps      :" + pad("   ",nSteps,true) + "        <a class=\"commands lessSteps\">(-)</a> <a class=\"commands moreSteps\">(+)</a> =\n";
             content += "= currentStep :" + pad("   ",currentStep+1,true) + "        <a class=\"commands prevStep\">(-)</a> <a class=\"commands nextStep\">(+)</a> =\n";
             content += "=                                 =\n";
-            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a> <a class=\"commands reset\">reset</a> <a class=\"commands test\">test</a> =\n";
+            content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a>            =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.5.0 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.5.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
@@ -772,29 +772,25 @@ var keyframesAnimationStudio = (function() {
         renderMainWindow();
         return false;
     });
-    
-    $( document ).delegate( "a.save", "click", function() {
-        alert("Feature in development.\nCheck back soon.")
-        return false;
-    });       
 
     $( document ).delegate( "a.load", "click", function() {
-        alert("Feature in development.\nCheck back soon.")
-        return false;
-    });       
-    
-    $( document ).delegate( "a.reset", "click", function() {
-        alert("Feature in development.\nCheck back soon.")
+        var savedStatus = prompt("Please enter your saved status", "generated with save button");
+        if (savedStatus != null){
+            $.post( "./main.php", { callType: "load", callValue: savedStatus })
+            .done(function( data ) {
+                alert( "Data Loaded: " + data );
+            });
+        }
         return false;
     });       
 
-    $( document ).delegate( "a.test", "click", function() {
+    $( document ).delegate( "a.save", "click", function() {
         var allStatuses = {};
         allStatuses['pieces'] = statuses;
         allStatuses['connections'] = connStatuses;
         var savedStatusJson = JSON.stringify(allStatuses);
         
-        $("input[name=callType]").val("test");
+        $("input[name=callType]").val("save");
         $("input[name=callValue]").val(savedStatusJson);
         $('#call').submit();
         
