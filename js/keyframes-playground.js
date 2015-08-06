@@ -1,3 +1,12 @@
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+
 var keyframesAnimationStudio = (function() {
     var nSteps = 4;
     var currentStep = 0;
@@ -50,7 +59,7 @@ var keyframesAnimationStudio = (function() {
             content += "= <a class=\"commands help\">help</a> <a class=\"commands twitter popup\" href=\"http://twitter.com/share?text=%40develost_com%20"+"\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a>            =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.5.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.6.0 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
@@ -157,9 +166,6 @@ var keyframesAnimationStudio = (function() {
     }
     
     var applyRotation = function(element,rotation){
-        //$(element).css({"-ms-transform":"rotate("+0+"deg)"});
-        //$(element).css({"-webkit-transform":"rotate("+0+"deg)"});
-        //$(element).css({"transform":"rotate("+0+"deg)"});    
         $(element).css({"-ms-transform":"rotate("+rotation+"deg)"});
         $(element).css({"-webkit-transform":"rotate("+rotation+"deg)"});
         $(element).css({"transform":"rotate("+rotation+"deg)"});
@@ -778,8 +784,39 @@ var keyframesAnimationStudio = (function() {
         if (savedStatus != null){
             $.post( "./main.php", { callType: "load", callValue: savedStatus })
             .done(function( data ) {
-                alert( "Data Loaded: " + data );
-                // start implementin load
+                var key,temp;
+                var maxPiece=0
+                var maxConn=0;
+                //alert( "Data Loaded: " + data );
+                statuses = data['pieces'];
+                connStatuses = data['connections'];
+                currentStep = 0;
+                clickedPieceId = "";
+                
+                for (key in statuses) {
+                    if (statuses.hasOwnProperty(key)) {
+                        nSteps = Object.size(statuses[key]);
+                        temp = parseInt(key.replace("piece",""));
+                        if (temp > maxPiece){
+                            maxPiece = temp;
+                        }
+                    }
+                }
+
+                for (key in connStatuses) {
+                    if (connStatuses.hasOwnProperty(key)) {
+                        temp = parseInt(key.replace("conn",""));
+                        if (temp > maxConn){
+                            maxConn = temp;
+                        }
+                    }
+                }
+                pieceCounter = maxPiece;
+                connCounter = maxConn;                
+                renderMainWindow();
+                rerenderAllPieces();
+                rerenderAllConnections();
+                checkConnect();                    
             });
         }
         return false;
