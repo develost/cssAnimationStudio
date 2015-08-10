@@ -794,7 +794,7 @@ var keyframesAnimationStudio = (function() {
                 clickedPieceId = "";
                 for (key in statuses) {
                     if (statuses.hasOwnProperty(key)) {
-                        alert("crea piece con id"+ key);
+                        //alert("crea piece con id"+ key);
                         $("#content").append("<div id=\"" + key + "\" class=\"piece\"></div>");
                         nSteps = Object.size(statuses[key]);
                         temp = parseInt(key.replace("piece",""));
@@ -819,7 +819,8 @@ var keyframesAnimationStudio = (function() {
                 renderMainWindow();
                 rerenderAllPieces();
                 rerenderAllConnections();
-                checkConnect();                    
+                checkConnect();
+                alert("Successfully loaded");
             });
         }
         return false;
