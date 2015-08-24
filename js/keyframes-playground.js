@@ -58,7 +58,7 @@ var keyframesAnimationStudio = (function() {
             content += "\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a>            =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.6.0 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.6.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
@@ -820,6 +820,7 @@ var keyframesAnimationStudio = (function() {
                 rerenderAllPieces();
                 rerenderAllConnections();
                 checkConnect();
+                $('.piece').draggable();
                 alert("Successfully loaded");
             });
         }
