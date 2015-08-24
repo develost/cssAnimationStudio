@@ -37,7 +37,9 @@ var keyframesAnimationStudio = (function() {
             content += "= Tip2: use wheel for rotation    =\n";
             content += "= Tip3: drag and drop everything  =\n";
             content += "= Tip4: click on items to select  =\n";
-            content += "= Load / save unimplemented yet   =\n";
+            content += "=                                 =\n";
+            content += "= Want this sw on your server?    =\n";
+            content += "= Write to info@develost.com      =\n";
             content += "=                                 =\n";
         }else if (mainWindowStatus == 0){
             content += "==<a class=\"commands switchMainWindow\">(+)</a>==============================\n";
@@ -58,7 +60,7 @@ var keyframesAnimationStudio = (function() {
             content += "\">tweet</a> <a class=\"commands save\" >save</a> <a class=\"commands load\">load</a>            =\n";
             content += "=                                 =\n";
         }
-        content += "=== 0.6.1 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
+        content += "=== 0.6.2 by <a  target=\"_blank\" href=\"http://www.develost.com\">develost.com</a> =========";
         $('#mainWindow').empty().append(content);
     }
 
